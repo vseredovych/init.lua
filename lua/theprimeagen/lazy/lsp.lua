@@ -34,6 +34,7 @@ return {
                 "lua_ls",
                 "rust_analyzer",
                 "gopls",
+                "pylsp"
             },
             handlers = {
                 function(server_name) -- default handler (optional)
@@ -42,22 +43,35 @@ return {
                     }
                 end,
 
-                zls = function()
+                -- Custom configuration for pylsp
+                pylsp = function()
                     local lspconfig = require("lspconfig")
-                    lspconfig.zls.setup({
-                        root_dir = lspconfig.util.root_pattern(".git", "build.zig", "zls.json"),
+                    lspconfig.pylsp.setup {
+                        capabilities = capabilities,
                         settings = {
-                            zls = {
-                                enable_inlay_hints = true,
-                                enable_snippets = true,
-                                warn_style = true,
+                            pylsp = {
+                                plugins = {
+                                    -- Disable warning plugins
+                                    pyflakes = { enabled = false },         -- Disable pyflakes (warning)
+                                    pycodestyle = { enabled = false },      -- Disable pycodestyle (warning)
+                                    pylint = { enabled = false },            -- Disable pylint (warning)
+                                    flake8 = { enabled = false },            -- Disable flake8 (warning)
+                                    mccabe = { enabled = false },            -- Disable complexity checker
+                                    pydocstyle = { enabled = false },        -- Disable docstring style checker
+
+                                    -- Enable auto-formatting plugins
+                                    black = { enabled = true, line_length = 88 },  -- Enable black (autoformatter)
+                                    yapf = { enabled = true },               -- Enable yapf (formatter)
+                                    autopep8 = { enabled = true },           -- Enable autopep8 (formatter)
+                                    isort = { enabled = true },              -- Enable isort (sorting imports)
+
+                                    -- Enable trailing whitespace removal (not a warning)
+                                    trailing_whitespace = { enabled = true },                                },
                             },
                         },
-                    })
-                    vim.g.zig_fmt_parse_errors = 0
-                    vim.g.zig_fmt_autosave = 0
-
+                    }
                 end,
+
                 ["lua_ls"] = function()
                     local lspconfig = require("lspconfig")
                     lspconfig.lua_ls.setup {
