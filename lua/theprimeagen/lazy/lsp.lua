@@ -49,23 +49,30 @@ return {
                         settings = {
                             pylsp = {
                                 plugins = {
-                                    -- Disable warning plugins
-                                    pyflakes = { enabled = false },         -- Disable pyflakes (warning)
-                                    pycodestyle = { enabled = false },      -- Disable pycodestyle (warning)
-                                    pylint = { enabled = false },            -- Disable pylint (warning)
-                                    flake8 = { enabled = false },            -- Disable flake8 (warning)
-                                    mccabe = { enabled = false },            -- Disable complexity checker
-                                    pydocstyle = { enabled = false },        -- Disable docstring style checker
+                                    -- Enable only critical errors (disable unnecessary warnings)
+                                    pyflakes = { enabled = true },         -- Enable pyflakes (for error checking)
+                                    pycodestyle = { enabled = false },     -- Disable pycodestyle (to avoid style warnings)
+                                    pylint = {
+                                        enabled = true,
+                                        args = {
+                                            "--disable=all",              -- Disable all checks
+                                            "--enable=error",             -- Enable only error-level checks
+                                            "--max-line-length=100",       -- Set max line length for error checking
+                                        }
+                                    },
+                                    flake8 = { enabled = false },         -- Disable flake8 (style checker)
+                                    mccabe = { enabled = false },         -- Disable mccabe (complexity checker)
+                                    pydocstyle = { enabled = false },     -- Disable pydocstyle (docstring checker)
 
                                     -- Enable auto-formatting plugins
-                                    black = { enabled = true, line_length = 88 },  -- Enable black (autoformatter)
+                                    black = { enabled = true, line_length = 100 },  -- Enable black (autoformatter)
                                     yapf = { enabled = true },               -- Enable yapf (formatter)
                                     autopep8 = { enabled = true },           -- Enable autopep8 (formatter)
                                     isort = { enabled = true },              -- Enable isort (sorting imports)
 
-                                    -- Enable trailing whitespace removal (not a warning)
-                                    trailing_whitespace = { enabled = true },                                },
-                            },
+                                    -- Enable trailing whitespace removal
+                                    trailing_whitespace = { enabled = true },                            },
+                            }
                         },
                     }
                 end,
