@@ -73,3 +73,6 @@ vim.keymap.set("n", "<leader><leader>", function()
     vim.cmd("so")
 end)
 
+-- Disable Ctrl + Z (Suspend)
+vim.api.nvim_set_keymap('n', '<C-z>', '<Nop>', { noremap = true, silent = true })
+
