@@ -3,6 +3,9 @@ return {
   dependencies = { "catppuccin/nvim" },
 
   config = function()
+    -- Set the airline section to show the full file path
+    vim.g.airline_section_b = "%F"
+
     -- Define the custom component
     local function python_env()
       local venv = os.getenv("VIRTUAL_ENV")
@@ -19,8 +22,6 @@ return {
     require("lualine").setup({
       options = {
         theme = "catppuccin",
-        -- section_separators = { left = '', right = '' },
-        -- component_separators = { left = '', right = '' },
       },
       sections = {
         lualine_x = { python_env }, -- Use custom component
