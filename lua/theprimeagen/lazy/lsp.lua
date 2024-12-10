@@ -96,13 +96,13 @@ return {
 
         local cmp_select = { behavior = cmp.SelectBehavior.Select }
         local uv = vim.loop
-
-        -- Helper function to expand environment variables
-        local function expand_env_vars(path)
-            return path:gsub("%$(%w+)", function(var)
-                return vim.fn.getenv(var) or "$" .. var
-            end)
-        end
+        local Path = require('plenary.path')
+        -- -- Helper function to expand environment variables
+        -- local function expand_env_vars(path)
+        --     return path:gsub("%$(%w+)", function(var)
+        --         return vim.fn.getenv(var) or "$" .. var
+        --     end)
+        -- end
 
         cmp.setup({
             snippet = {
@@ -119,18 +119,24 @@ return {
             sources = cmp.config.sources({
                 { name = 'nvim_lsp' },
                 -- Expands the path of env variables like $HOME
-                { name = 'path', options = {
-                    get_paths = function()
-                        local paths = {}
-                        for dir in uv.fs_scandir_iter(uv.cwd()) do
-                            table.insert(paths, dir)
-                        end
-                        return paths
-                    end,
-                    resolve = function(path)
-                        return expand_env_vars(path) -- Expand env vars on the fly
-                    end,
-                }},               { name = 'luasnip' }, -- For luasnip users.
+                {
+                    name = 'path',
+                    options = {
+                        get_paths = function()
+                            local paths = {}
+                            -- Use plenary to get paths in the current directory
+                            for dir in Path:new(vim.fn.getcwd()):iter() do
+                                table.insert(paths, dir)
+                            end
+                            return paths
+                        end,
+                        resolve = function(path)
+                            -- Use plenary to expand environment variables
+                            return Path:new(path):expand()
+                        end,
+                    }
+                },
+                { name = 'luasnip' }, -- For luasnip users.
             }, {
                 { name = 'buffer' },
             })

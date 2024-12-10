@@ -2,7 +2,7 @@ return {
     "github/copilot.vim",
     config = function()
         -- Enable Copilot
-        vim.g.copilot_enabled = 1
+        vim.g.copilot_enabled = 0
 
         -- Keybinding to trigger Copilot suggestions manually
         vim.api.nvim_set_keymap("i", "<C-J>", "copilot#Accept('<CR>')", { noremap = true, silent = true, expr = true })
