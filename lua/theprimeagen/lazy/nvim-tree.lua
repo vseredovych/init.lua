@@ -43,7 +43,11 @@ return {
 
             end,
 
-            view = { adaptive_size = true }
+            view = { adaptive_size = true },
+
+            git = {
+                enable = false,
+            },
 
         })
     end,
