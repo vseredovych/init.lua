@@ -76,3 +76,9 @@ end)
 -- Disable Ctrl + Z (Suspend)
 vim.api.nvim_set_keymap('n', '<C-z>', '<Nop>', { noremap = true, silent = true })
 
+
+---
+-- vim.keymap.set("n", "<c-m>", function()
+--   require("Comment.api").toggle.linewise.current()
+-- end, { desc = "Toggle comment for current line" })
+--
