@@ -34,13 +34,27 @@ return {
                 operators = {},
                 -- miscs = {}, -- Uncomment to turn off hard-coded styles
             },
-            color_overrides = {},
+            color_overrides = {
+                all = {
+                    NetrwMarkedFile = { fg = "#F5C359", bg = "#1E1E2E", bold = true },
+                    Directory        = { fg = "#DDB6F2", bold = true },
+                    NetrwClassified  = { fg = "#F5C2E7", bold = true },
+                    NetrwFile        = { fg = "#C6C6C6" },
+                },
+                mocha = {
+                    NetrwMarkedFile = { fg = "#F5C359", bg = "#1E1E2E", bold = true },
+                    Directory        = { fg = "#DDB6F2", bold = true },
+                },
+                latte = {},
+                frappe = {},
+                macchiato = {},
+            },
             custom_highlights = {},
             default_integrations = true,
             integrations = {
                 cmp = true,
                 gitsigns = true,
-                nvimtree = true,
+                -- nvimtree = true,
                 treesitter = true,
                 notify = false,
                 mini = {
@@ -56,6 +70,12 @@ return {
 
         -- setup must be called before loading
         vim.cmd.colorscheme "catppuccin"
+
+        -- vim.api.nvim_set_hl(0, "NetrwMarkedFile", { fg = "Yellow", bg = "DarkBlue", bold = true })
+        -- Optional: tweak other Netrw groups for visibility
+        -- vim.api.nvim_set_hl(0, "Directory", { fg = "Cyan", bold = true })
+        -- vim.api.nvim_set_hl(0, "NetrwClassified", { fg = "Magenta", bold = true })
+        -- vim.api.nvim_set_hl(0, "NetrwFile", { fg = "White" })
     end
 }
 

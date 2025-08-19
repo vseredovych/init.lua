@@ -1,6 +1,6 @@
-require("theprimeagen.set")
-require("theprimeagen.remap")
-require("theprimeagen.lazy_init")
+require("vs.set")
+require("vs.remap")
+require("vs.lazy_init")
 
 -- DO.not
 -- DO NOT INCLUDE THIS
@@ -14,7 +14,7 @@ require("theprimeagen.lazy_init")
 -- DO.not
 
 local augroup = vim.api.nvim_create_augroup
-local ThePrimeagenGroup = augroup('ThePrimeagen', {})
+local vsGroup = augroup('vsGroup', {})
 
 local autocmd = vim.api.nvim_create_autocmd
 local yank_group = augroup('HighlightYank', {})
@@ -40,26 +40,14 @@ autocmd('TextYankPost', {
     end,
 })
 
-autocmd({"BufWritePre"}, {
-    group = ThePrimeagenGroup,
+autocmd({ "BufWritePre" }, {
+    group = vsGroup,
     pattern = "*",
     command = [[%s/\s\+$//e]],
 })
 
--- autocmd('BufEnter', {
---     group = ThePrimeagenGroup,
---     callback = function()
---         if vim.bo.filetype == "zig" then
---             vim.cmd.colorscheme("tokyonight-night")
---         else
---             vim.cmd.colorscheme("rose-pine-moon")
---         end
---     end
--- })
-
-
 autocmd('LspAttach', {
-    group = ThePrimeagenGroup,
+    group = vsGroup,
     callback = function(e)
         local opts = { buffer = e.buf }
         vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
@@ -74,6 +62,8 @@ autocmd('LspAttach', {
         vim.keymap.set("n", "]d", function() vim.diagnostic.goto_prev() end, opts)
     end
 })
+
+
 
 vim.g.netrw_browse_split = 0
 vim.g.netrw_banner = 0

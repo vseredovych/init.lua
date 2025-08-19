@@ -4,7 +4,7 @@ return {
         require("harpoon").setup({
             menu = {
                 width = math.floor(vim.o.columns * 0.6), -- 80% of the screen width
-                height = math.floor(vim.o.lines * 0.3), -- 30% of the screen height
+                height = math.floor(vim.o.lines * 0.3),  -- 30% of the screen height
             },
         })
 
@@ -21,4 +21,3 @@ return {
         vim.keymap.set("n", "<C-b>", function() ui.nav_file(4) end, { desc = "Harpoon: Navigate to file 4" })
     end,
 }
-
