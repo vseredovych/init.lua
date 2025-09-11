@@ -32,7 +32,6 @@ return {
 
         vim.keymap.set('n', '<leader>vh', builtin.help_tags, {})
 
-        -- ideas to test
         vim.keymap.set('n', '<leader>pR', function()
             require('telescope.builtin').grep_string({
                 search = vim.fn.input("Grep > "),

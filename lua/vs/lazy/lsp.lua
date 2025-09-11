@@ -2,13 +2,14 @@ return {
     -- Mason core (manages binaries like "ruff")
     { "mason-org/mason.nvim", opts = {} },
 
-    -- Bridge: auto-installs & (by default) auto-enables LSP servers
+    -- auto-installs & (by default) auto-enables LSP servers
     {
         "mason-org/mason-lspconfig.nvim",
         dependencies = {
             "neovim/nvim-lspconfig",
             "hrsh7th/cmp-nvim-lsp",
-            "j-hui/fidget.nvim"
+            "j-hui/fidget.nvim",
+            "stevearc/conform.nvim",
         },
         config = function()
             local cmp_lsp = require("cmp_nvim_lsp")
@@ -29,26 +30,24 @@ return {
                     prefix = "",
                 },
             })
-            -- vim.diagnostic.config({
-            --     virtual_text = true,
-            --     signs = true,
-            --     underline = true,
-            --     update_in_insert = false,
-            --     severity_sort = true,
-            --     float = {
-            --         focusable = false,
-            --         style = "minimal",
-            --         border = "rounded",
-            --         source = "always",
-            --         header = "",
-            --         prefix = "",
-            --     },
-            -- })
 
             require("fidget").setup({})
             require("mason").setup()
+
+            -- Tools that are not lsp server should be installed here
+            local mason_registry = require("mason-registry")
+            local tools = { "clang-format" }
+
+            for _, tool in ipairs(tools) do
+                local p = mason_registry.get_package(tool)
+                if not p:is_installed() then
+                    p:install()
+                end
+            end
+
             require("mason-lspconfig").setup({
-                ensure_installed = { "ruff", "pyright" },
+                -- LSP servers go here
+                ensure_installed = { "ruff", "pyright", "clangd" },
 
                 handlers = {
                     function(server_name)
@@ -72,7 +71,25 @@ return {
                             }
                         }
                     end,
+                    ["clangd"] = function()
+                        local lspconfig = require("lspconfig")
+                        lspconfig.clangd.setup {
+                            capabilities = capabilities,
+                            filetypes = { "c", "cpp", "objc", "objcpp" },
+                            root_dir = lspconfig.util.root_pattern("compile_commands.json", "compile_flags.txt", ".git"),
+                            cmd = { "clangd", "--background-index" }, -- optional
+                        }
+                    end,
                 }
+            })
+
+            require("conform").setup({
+                formatters_by_ft = {
+                    python = { "ruff_fix", "ruff_format" },
+                    c = { "clang-format" },
+                    cpp = { "clang-format" },
+                },
+                format_on_save = { timeout_ms = 500, lsp_fallback = false }
             })
         end
     },
@@ -90,27 +107,29 @@ return {
                             enable = true,
                             select = { "A", "B", "C", "E", "F", "N", "W", "PL"}, -- From pyproject.toml
                             exclude = { "*.pyi", "docs/", "tests/" }, -- From pyproject.toml
-                            lineLength = 88, -- From pyproject.toml
+                            lineLength = 100, -- From pyproject.toml
                             preview = true, -- Enable preview features
                         },
                         format = {
                             preview = true, -- Enable preview formatting
-                            lineLength = 88,
+                            lineLength = 100,
                         },
                     },
                 },
-                on_attach = function(client, bufnr)
-                    client.server_capabilities.codeActionProvider = true -- Enable quick fixes
-                    vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-                        vim.lsp.diagnostic.on_publish_diagnostics, {
-                            update_in_insert = true,
-                            virtual_text = true,
-                            debounce = 50,
-                        }
-                    )
-                end,
+                -- TODO: remove? I don't remeber why it is here :)
+                -- on_attach = function(client, bufnr)
+                --     client.server_capabilities.codeActionProvider = true -- Enable quick fixes
+                --     vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+                --         vim.lsp.diagnostic.on_publish_diagnostics, {
+                --             update_in_insert = true,
+                --             virtual_text = true,
+                --             debounce = 50,
+                --         }
+                --     )
+                -- end,
             })
 
+            -- TODO: remove pylsp
             -- vim.lsp.config('pylsp', {
             --     settings = {
             --         pylsp = {
@@ -140,6 +159,7 @@ return {
             --
             --     }
             -- })
+
             vim.lsp.config('pyright', {
                 settings = {
                     pyright = {
@@ -188,17 +208,9 @@ return {
             "hrsh7th/cmp-cmdline",
             "L3MON4D3/LuaSnip",
             "saadparwaiz1/cmp_luasnip",
-            "stevearc/conform.nvim",
         },
 
         config = function()
-            require("conform").setup({
-                formatters_by_ft = {
-                    python = { "ruff_fix", "ruff_format" }
-                },
-                format_on_save = { timeout_ms = 500, lsp_fallback = false }
-            })
-
             local cmp = require('cmp')
             local cmp_select = { behavior = cmp.SelectBehavior.Select }
 
@@ -215,9 +227,9 @@ return {
                     ["<C-Space>"] = cmp.mapping.complete(),
                 }),
                 sources = cmp.config.sources({
-                    { name = 'nvim_lsp' },
-                    { name = 'path' },
-                    { name = 'luasnip' },
+                    { name = 'nvim_lsp', max_item_count = 15 },
+                    { name = 'path', max_item_count = 15 },
+                    { name = 'luasnip', max_item_count = 15 },
                 }, {
                         { name = 'buffer' },
                     })

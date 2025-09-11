@@ -7,16 +7,11 @@ vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 vim.keymap.set("n", "J", "mzJ`z")
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
-vim.keymap.set("n", "n", "nzzzv")
--- vim.keymap.set("n", "<leader>zig", "<cmd>LspRestart<cr>")
-vim.keymap.set("n", "N", "Nzzzv")
 
--- vim.keymap.set("n", "<leader>vwm", function()
---     require("vim-with-me").StartVimWithMe()
--- end)
--- vim.keymap.set("n", "<leader>svwm", function()
---     require("vim-with-me").StopVimWithMe()
--- end)
+-- vim.keymap.set("n", "n", "nzzzv")
+-- vim.keymap.set("n", "<leader>zig", "<cmd>LspRestart<cr>")
+--
+vim.keymap.set("n", "N", "Nzzzv")
 
 -- greatest remap ever
 vim.keymap.set("x", "<leader>p", [["_dP]])
@@ -27,10 +22,8 @@ vim.keymap.set("n", "<leader>Y", [["+Y]])
 
 vim.keymap.set({ "n", "v" }, "<leader>d", "\"_d")
 
--- This is going to get me cancelled
--- vim.keymap.set("i", "<C-c>", "<Esc>")
-
 vim.keymap.set("n", "Q", "<nop>")
+
 -- vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
 vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)
 
@@ -42,31 +35,7 @@ vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz")
 vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true })
 
--- vim.keymap.set(
---     "n",
---     "<leader>ee",
---     "oif err != nil {<CR>}<Esc>Oreturn err<Esc>"
--- )
---
--- vim.keymap.set(
---     "n",
---     "<leader>ea",
---     "oassert.NoError(err, \"\")<Esc>F\";a"
--- )
---
--- vim.keymap.set(
---     "n",
---     "<leader>ef",
---     "oif err != nil {<CR>}<Esc>Olog.Fatalf(\"error: %s\\n\", err.Error())<Esc>jj"
--- )
---
--- vim.keymap.set(
---     "n",
---     "<leader>el",
---     "oif err != nil {<CR>}<Esc>O.logger.Error(\"error\", \"error\", err)<Esc>F.;i"
--- )
-
-vim.keymap.set("n", "<leader>vpp", "<cmd>e ~/.dotfiles/nvim/.config/nvim/lua/vs/packer.lua<CR>");
+-- vim.keymap.set("n", "<leader>vpp", "<cmd>e ~/.dotfiles/nvim/.config/nvim/lua/vs/packer.lua<CR>");
 vim.keymap.set("n", "<leader>mr", "<cmd>CellularAutomaton make_it_rain<CR>");
 
 vim.keymap.set("n", "<leader><leader>", function()
@@ -76,21 +45,11 @@ end)
 -- Disable Ctrl + Z (Suspend)
 vim.api.nvim_set_keymap('n', '<C-z>', '<Nop>', { noremap = true, silent = true })
 
--- Format with Black
--- vim.keymap.set("n", "<leader>b", ":!black %<CR>:edit!<CR>", { desc = "Format with Black" })
---
--- -- Split args and re-indent
--- vim.keymap.set("v", "<leader>q", [[:s/, */, \r    /g]], { desc = "Split args and fix indent" })
---
-
 -- Emacs-style movement in command-line mode (:)
 vim.keymap.set('c', '<C-b>', '<Left>')   -- Ctrl+b moves left
 vim.keymap.set('c', '<C-f>', '<Right>')  -- Ctrl+f moves right
 vim.keymap.set('c', '<M-b>', '<S-Left>') -- Alt/Option+b moves back a word
 vim.keymap.set('c', '<M-f>', '<S-Right>')-- Alt/Option+f moves forward a word
 
----
--- vim.keymap.set("n", "<c-m>", function()
---   require("Comment.api").toggle.linewise.current()
--- end, { desc = "Toggle comment for current line" })
---
+-- CMake
+vim.api.nvim_set_keymap("n", "<leader>cm", ":!cmake --build build<CR>", { noremap=true, silent=true })
