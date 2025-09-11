@@ -170,7 +170,7 @@ return {
             require("mason-nvim-dap").setup({
                 ensure_installed = {
                     "codelldb",   -- C++/Rust
-                    "python@3.10",     -- debugpy for Python
+                    "python",     -- debugpy for Python
                 },
                 automatic_installation = true,
                 handlers = {
