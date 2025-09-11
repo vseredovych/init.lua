@@ -41,7 +41,7 @@ return {
 
 				handlers = {
 					function(server_name)
-						print("Default handler for: " .. server_name)
+						-- print("Default handler for: " .. server_name)
 						require("lspconfig")[server_name].setup({
 							capabilities = capabilities,
 						})
@@ -53,7 +53,7 @@ return {
 							settings = {
 								Lua = {
 									format = {
-										enable = true,
+										-- enable = true,
 										-- Put format options here
 										-- NOTE: the value should be STRING!!
 										defaultConfig = {
@@ -86,37 +86,70 @@ return {
 	-- LSP configs (data-only now; we define ruff settings via core API)
 	{
 		"neovim/nvim-lspconfig",
+		dependencies = {
+			"neovim/nvim-lspconfig",
+			"hrsh7th/cmp-nvim-lsp",
+			"j-hui/fidget.nvim",
+		},
 
 		config = function()
-			-- Define Ruff server configuration once, via Neovim core API
-			vim.lsp.config("ruff", {
+			local lspconfig = require("lspconfig")
+
+			-- local cmp_lsp = require("cmp_nvim_lsp")
+			-- local capabilities = vim.tbl_deep_extend(
+			-- 	"force",
+			-- 	{},
+			-- 	vim.lsp.protocol.make_client_capabilities(),
+			-- 	cmp_lsp.default_capabilities()
+			-- )
+			--
+			lspconfig.ruff.setup({
 				init_options = {
 					settings = {
 						lint = {
 							enable = true,
-							select = { "A", "B", "C", "E", "F", "N", "W", "PL" }, -- From pyproject.toml
-							exclude = { "*.pyi", "docs/", "tests/" }, -- From pyproject.toml
-							lineLength = 100, -- From pyproject.toml
-							preview = true, -- Enable preview features
+							select = { "A", "B", "C", "E", "F", "N", "W", "PL" },
+							exclude = { "*.pyi", "docs/", "tests/" },
+							lineLength = 100,
+							preview = true,
 						},
 						format = {
-							preview = true, -- Enable preview formatting
+							preview = true,
 							lineLength = 100,
 						},
 					},
 				},
-				-- TODO: remove? I don't remeber why it is here :)
-				-- on_attach = function(client, bufnr)
-				--     client.server_capabilities.codeActionProvider = true -- Enable quick fixes
-				--     vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-				--         vim.lsp.diagnostic.on_publish_diagnostics, {
-				--             update_in_insert = true,
-				--             virtual_text = true,
-				--             debounce = 50,
-				--         }
-				--     )
-				-- end,
 			})
+
+			-- Define Ruff server configuration once, via Neovim core API
+			-- vim.lsp.config("ruff", {
+			-- 	init_options = {
+			-- 		settings = {
+			-- 			lint = {
+			-- 				enable = true,
+			-- 				select = { "A", "B", "C", "E", "F", "N", "W", "PL" }, -- From pyproject.toml
+			-- 				exclude = { "*.pyi", "docs/", "tests/" }, -- From pyproject.toml
+			-- 				lineLength = 100, -- From pyproject.toml
+			-- 				preview = true, -- Enable preview features
+			-- 			},
+			-- 			format = {
+			-- 				preview = true, -- Enable preview formatting
+			-- 				lineLength = 100,
+			-- 			},
+			-- 		},
+			-- 	},
+			-- 	-- TODO: remove? I don't remeber why it is here :)
+			-- 	-- on_attach = function(client, bufnr)
+			-- 	--     client.server_capabilities.codeActionProvider = true -- Enable quick fixes
+			-- 	--     vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+			-- 	--         vim.lsp.diagnostic.on_publish_diagnostics, {
+			-- 	--             update_in_insert = true,
+			-- 	--             virtual_text = true,
+			-- 	--             debounce = 50,
+			-- 	--         }
+			-- 	--     )
+			-- 	-- end,
+			-- })
 
 			-- TODO: remove pylsp
 			-- vim.lsp.config('pylsp', {
@@ -149,13 +182,14 @@ return {
 			--     }
 			-- })
 
-			vim.lsp.config("pyright", {
+			lspconfig.pyright.setup({
 				settings = {
 					pyright = {
 						disableOrganizeImports = true, -- Ruff handles imports
 						disableLanguageServices = false,
 					},
 					python = {
+
 						-- analysis = {
 						--     -- Ignore all files for analysis to exclusively use Ruff for linting
 						--     ignore = { '*' },
@@ -197,6 +231,7 @@ return {
 			"hrsh7th/cmp-cmdline",
 			"L3MON4D3/LuaSnip",
 			"saadparwaiz1/cmp_luasnip",
+			"rafamadriz/friendly-snippets",
 		},
 
 		config = function()
@@ -224,6 +259,14 @@ return {
 					{ name = "buffer" },
 				}),
 			})
+
+			-- TODO: remove
+			-- local luasnip = require("luasnip")
+			-- local s = luasnip.snippet
+			-- local t = luasnip.text_node
+			--
+			-- local foo = s("bar", t("baz"))
+			-- luasnip.add_snippets("all", { foo })
 
 			-- Command-line completion
 			cmp.setup.cmdline("/", {
