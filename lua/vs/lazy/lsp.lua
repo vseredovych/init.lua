@@ -42,13 +42,12 @@ return {
 				handlers = {
 					function(server_name)
 						-- print("Default handler for: " .. server_name)
-						require("lspconfig")[server_name].setup({
+						vim.lsp.config[server_name].setup({
 							capabilities = capabilities,
 						})
 					end,
 					["lua_ls"] = function()
-						local lspconfig = require("lspconfig")
-						lspconfig.lua_ls.setup({
+						vim.lsp.config.lua_ls.setup({
 							capabilities = capabilities,
 							settings = {
 								Lua = {
@@ -66,11 +65,10 @@ return {
 						})
 					end,
 					["clangd"] = function()
-						local lspconfig = require("lspconfig")
-						lspconfig.clangd.setup({
+						vim.lsp.config.clangd.setup({
 							capabilities = capabilities,
 							filetypes = { "c", "cpp", "objc", "objcpp" },
-							root_dir = lspconfig.util.root_pattern(
+							root_dir = vim.lsp.config.util.root_pattern(
 								"compile_commands.json",
 								"compile_flags.txt",
 								".git"
@@ -93,8 +91,6 @@ return {
 		},
 
 		config = function()
-			local lspconfig = require("lspconfig")
-
 			-- local cmp_lsp = require("cmp_nvim_lsp")
 			-- local capabilities = vim.tbl_deep_extend(
 			-- 	"force",
@@ -103,7 +99,7 @@ return {
 			-- 	cmp_lsp.default_capabilities()
 			-- )
 			--
-			lspconfig.ruff.setup({
+			vim.lsp.config("ruff", {
 				init_options = {
 					settings = {
 						lint = {
@@ -182,7 +178,7 @@ return {
 			--     }
 			-- })
 
-			lspconfig.pyright.setup({
+			vim.lsp.config("pyright", {
 				settings = {
 					pyright = {
 						disableOrganizeImports = true, -- Ruff handles imports
