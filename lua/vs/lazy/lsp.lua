@@ -179,7 +179,7 @@ return {
 			--     }
 			-- })
 
-			vim.lsp.config("pyright", {
+			vim.lsp.config("basedpyright", {
 				settings = {
 					basedpyright = {
 						disableOrganizeImports = true, -- Ruff handles imports
