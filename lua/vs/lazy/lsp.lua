@@ -37,7 +37,8 @@ return {
 
 			require("mason-lspconfig").setup({
 				-- LSP servers go here
-				ensure_installed = { "lua_ls", "ruff", "pyright", "clangd" },
+				ensure_installed = { "lua_ls", "ruff", "basedpyright", "clangd", "groovyls" },
+				-- , "groovyls"
 
 				handlers = {
 					function(server_name)
@@ -76,6 +77,13 @@ return {
 							cmd = { "clangd", "--background-index" }, -- optional
 						})
 					end,
+					-- ["groovyls"] = function()
+					-- 	local lspconfig = require("lspconfig")
+					-- 	lspconfig.groovyls.setup({
+					-- 		capabilities = capabilities,
+					-- 		filetypes = { "Jenkinsfile" },
+					-- 	})
+					-- end,
 				},
 			})
 		end,
@@ -91,14 +99,6 @@ return {
 		},
 
 		config = function()
-			-- local cmp_lsp = require("cmp_nvim_lsp")
-			-- local capabilities = vim.tbl_deep_extend(
-			-- 	"force",
-			-- 	{},
-			-- 	vim.lsp.protocol.make_client_capabilities(),
-			-- 	cmp_lsp.default_capabilities()
-			-- )
-			--
 			vim.lsp.config("ruff", {
 				init_options = {
 					settings = {
@@ -108,6 +108,7 @@ return {
 							exclude = { "*.pyi", "docs/", "tests/" },
 							lineLength = 100,
 							preview = true,
+							ignore = { "PLR0904" },
 						},
 						format = {
 							preview = true,
@@ -180,11 +181,9 @@ return {
 
 			vim.lsp.config("pyright", {
 				settings = {
-					pyright = {
+					basedpyright = {
 						disableOrganizeImports = true, -- Ruff handles imports
 						disableLanguageServices = false,
-					},
-					python = {
 
 						-- analysis = {
 						--     -- Ignore all files for analysis to exclusively use Ruff for linting
@@ -199,6 +198,8 @@ return {
 							diagnosticSeverityOverrides = {
 								reportMissingImports = "error",
 
+								reportArgumentType = "hint",
+								reportMissingTypeStubs = "none",
 								reportUnknownMemberType = "none",
 								reportOptionalSubscript = "none",
 								reportOptionalMemberAccess = "none",
@@ -215,6 +216,44 @@ return {
 					},
 				},
 			})
+			-- lspconfig.pyright.setup({
+			-- 	settings = {
+			-- 		pyright = {
+			-- 			disableOrganizeImports = true, -- Ruff handles imports
+			-- 			disableLanguageServices = false,
+			-- 		},
+			-- 		python = {
+			--
+			-- 			-- analysis = {
+			-- 			--     -- Ignore all files for analysis to exclusively use Ruff for linting
+			-- 			--     ignore = { '*' },
+			-- 			-- },
+			-- 			analysis = {
+			-- 				autoSearchPaths = true,
+			-- 				-- useLibraryCodeForTypes = true,
+			-- 				diagnosticMode = "openFilesOnly", -- Prevent random checks
+			-- 				typeCheckingMode = "off", -- Options: "off", "basic", "strict"
+			--
+			-- 				diagnosticSeverityOverrides = {
+			-- 					reportMissingImports = "error",
+			--
+			-- 					reportMissingTypeStubs = "none",
+			-- 					reportUnknownMemberType = "none",
+			-- 					reportOptionalSubscript = "none",
+			-- 					reportOptionalMemberAccess = "none",
+			-- 					reportUnusedImport = "none", -- Ruff handles this
+			-- 					reportUndefinedVariable = "none",
+			-- 					reportGeneralTypeIssues = "none",
+			-- 					reportInvalidTypeForm = "none", -- Suppress enum type annotation errors
+			-- 					reportAssignmentType = "none",
+			-- 					reportReturnType = "none",
+			-- 					reportOptionalIterable = "none",
+			-- 					reportOptionalOperand = "none",
+			-- 				},
+			-- 			},
+			-- 		},
+			-- 	},
+			-- })
 		end,
 	},
 
