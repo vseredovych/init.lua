@@ -2,10 +2,42 @@
 
 Personal Neovim config written in Lua. Plugins managed via [lazy.nvim](https://github.com/folke/lazy.nvim) (auto-installed on first run).
 
-## Requirements
+## Prerequisites
 
-- Neovim >= 0.9
-- [ripgrep](https://github.com/BurntSushi/ripgrep)
+Mason auto-installs LSP servers, formatters, and DAP adapters on first launch, but the runtimes below must be present on the system first.
+
+| Dependency | Why |
+|---|---|
+| Neovim >= 0.11 | `vim.lsp.config` API |
+| git | lazy.nvim bootstrap, Fugitive |
+| ripgrep | Telescope live grep |
+| C compiler + make | Treesitter compiles parsers natively |
+| Node.js | ts_ls, html, cssls, jsonls, eslint |
+| Python 3 | debugpy (DAP adapter) |
+| Java JDK | groovyls (Groovy/Jenkinsfile LSP) |
+
+### Arch Linux
+
+```sh
+# Base build tools (C compiler, make, etc.)
+sudo pacman -S base-devel
+
+# Core deps
+sudo pacman -S neovim git ripgrep nodejs npm python jdk-openjdk
+```
+
+### macOS
+
+```sh
+# Xcode CLI tools (C compiler, make)
+xcode-select --install
+
+# Core deps (Homebrew)
+brew install neovim git ripgrep node python openjdk
+
+# Add Java to PATH (follow the caveats printed by brew)
+echo 'export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"' >> ~/.zshrc
+```
 
 ## Setup
 

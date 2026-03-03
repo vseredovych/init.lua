@@ -38,7 +38,18 @@ return {
 
 			require("mason-lspconfig").setup({
 				-- LSP servers go here
-				ensure_installed = { "lua_ls", "ruff", "basedpyright", "clangd", "groovyls" },
+				ensure_installed = {
+				"lua_ls",
+				"ruff",
+				"basedpyright",
+				"clangd",
+				"groovyls",
+				"ts_ls",
+				"html",
+				"cssls",
+				"jsonls",
+				"eslint",
+			},
 				-- , "groovyls"
 
 				handlers = {
