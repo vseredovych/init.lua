@@ -6,6 +6,7 @@ return {
 	{
 		"mason-org/mason-lspconfig.nvim",
 		dependencies = {
+			"hrsh7th/nvim-cmp",
 			"neovim/nvim-lspconfig",
 			"hrsh7th/cmp-nvim-lsp",
 			"j-hui/fidget.nvim",
