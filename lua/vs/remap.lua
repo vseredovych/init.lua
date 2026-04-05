@@ -20,11 +20,17 @@ vim.keymap.set("x", "<leader>p", [["_dP]])
 vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
 vim.keymap.set("n", "<leader>Y", [["+Y]])
 
-vim.keymap.set({ "n", "v" }, "<leader>d", "\"_d")
+vim.keymap.set({ "n", "v" }, "<leader>d", '"_d')
 
 vim.keymap.set("n", "Q", "<nop>")
 
 -- vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
+vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
+vim.keymap.set("n", "<M-h>", "<cmd>silent !tmux neww tmux-sessionizer -s 0<CR>")
+vim.keymap.set("n", "<M-t>", "<cmd>silent !tmux neww tmux-sessionizer -s 1<CR>")
+vim.keymap.set("n", "<M-n>", "<cmd>silent !tmux neww tmux-sessionizer -s 2<CR>")
+vim.keymap.set("n", "<M-s>", "<cmd>silent !tmux neww tmux-sessionizer -s 3<CR>")
+
 vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)
 
 vim.keymap.set("n", "<C-k>", "<cmd>cnext<CR>zz")
@@ -36,20 +42,20 @@ vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><
 vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true })
 
 -- vim.keymap.set("n", "<leader>vpp", "<cmd>e ~/.dotfiles/nvim/.config/nvim/lua/vs/packer.lua<CR>");
-vim.keymap.set("n", "<leader>mr", "<cmd>CellularAutomaton make_it_rain<CR>");
+vim.keymap.set("n", "<leader>mr", "<cmd>CellularAutomaton make_it_rain<CR>")
 
 vim.keymap.set("n", "<leader><leader>", function()
-    vim.cmd("so")
+	vim.cmd("so")
 end)
 
 -- Disable Ctrl + Z (Suspend)
-vim.api.nvim_set_keymap('n', '<C-z>', '<Nop>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<C-z>", "<Nop>", { noremap = true, silent = true })
 
 -- Emacs-style movement in command-line mode (:)
-vim.keymap.set('c', '<C-b>', '<Left>')   -- Ctrl+b moves left
-vim.keymap.set('c', '<C-f>', '<Right>')  -- Ctrl+f moves right
-vim.keymap.set('c', '<M-b>', '<S-Left>') -- Alt/Option+b moves back a word
-vim.keymap.set('c', '<M-f>', '<S-Right>')-- Alt/Option+f moves forward a word
+vim.keymap.set("c", "<C-b>", "<Left>") -- Ctrl+b moves left
+vim.keymap.set("c", "<C-f>", "<Right>") -- Ctrl+f moves right
+vim.keymap.set("c", "<M-b>", "<S-Left>") -- Alt/Option+b moves back a word
+vim.keymap.set("c", "<M-f>", "<S-Right>") -- Alt/Option+f moves forward a word
 
 -- CMake
-vim.api.nvim_set_keymap("n", "<leader>cm", ":!cmake --build build<CR>", { noremap=true, silent=true })
+vim.api.nvim_set_keymap("n", "<leader>cm", ":!cmake --build build<CR>", { noremap = true, silent = true })
