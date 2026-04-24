@@ -52,6 +52,19 @@ brew install neovim git ripgrep node python openjdk
 echo 'export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"' >> ~/.zshrc
 ```
 
+## Python setup (pyenv)
+
+Mason installs Python tools (ruff, basedpyright, debugpy) via `python3 -m pip`. A working Python 3 with pip is required — system Python on macOS lacks pip by default.
+
+```sh
+pyenv install 3.12
+pyenv global 3.12
+
+# verify
+python3 --version
+python3 -m pip --version
+```
+
 ## Setup
 
 ```sh
