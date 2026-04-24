@@ -26,6 +26,19 @@ sudo pacman -S base-devel
 sudo pacman -S neovim git ripgrep nodejs npm python jdk-openjdk
 ```
 
+### Ubuntu
+
+```sh
+# Base build tools (C compiler, make)
+sudo apt-get install -y build-essential
+
+# Core deps
+sudo apt-get install -y neovim git ripgrep nodejs npm python3 openjdk-17-jdk
+
+# Neovim from apt is often outdated — install >= 0.11 via snap if needed
+sudo snap install nvim --classic
+```
+
 ### macOS
 
 ```sh
