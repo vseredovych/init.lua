@@ -39,18 +39,17 @@ return {
 			require("mason-lspconfig").setup({
 				-- LSP servers go here
 				ensure_installed = {
-				"lua_ls",
-				"ruff",
-				"basedpyright",
-				"clangd",
-				"groovyls",
-				"ts_ls",
-				"html",
-				"cssls",
-				"jsonls",
-				"eslint",
-			},
-				-- , "groovyls"
+					"ty",
+					"lua_ls",
+					"ruff",
+					"clangd",
+					"groovyls",
+					"ts_ls",
+					"html",
+					"cssls",
+					"jsonls",
+					"eslint",
+				},
 
 				handlers = {
 					function(server_name)
@@ -130,111 +129,24 @@ return {
 				},
 			})
 
-			-- Define Ruff server configuration once, via Neovim core API
-			-- vim.lsp.config("ruff", {
-			-- 	init_options = {
-			-- 		settings = {
-			-- 			lint = {
-			-- 				enable = true,
-			-- 				select = { "A", "B", "C", "E", "F", "N", "W", "PL" }, -- From pyproject.toml
-			-- 				exclude = { "*.pyi", "docs/", "tests/" }, -- From pyproject.toml
-			-- 				lineLength = 100, -- From pyproject.toml
-			-- 				preview = true, -- Enable preview features
-			-- 			},
-			-- 			format = {
-			-- 				preview = true, -- Enable preview formatting
-			-- 				lineLength = 100,
-			-- 			},
-			-- 		},
-			-- 	},
-			-- 	-- TODO: remove? I don't remeber why it is here :)
-			-- 	-- on_attach = function(client, bufnr)
-			-- 	--     client.server_capabilities.codeActionProvider = true -- Enable quick fixes
-			-- 	--     vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-			-- 	--         vim.lsp.diagnostic.on_publish_diagnostics, {
-			-- 	--             update_in_insert = true,
-			-- 	--             virtual_text = true,
-			-- 	--             debounce = 50,
-			-- 	--         }
-			-- 	--     )
-			-- 	-- end,
-			-- })
-
-			-- TODO: remove pylsp
-			-- vim.lsp.config('pylsp', {
-			--     settings = {
-			--         pylsp = {
-			--             mypy = {
-			--                 enabled = true,
-			--                 live_mode = true,  -- runs on file change
-			--                 strict = false     -- or true if you want full strictness
-			--             },
-			--             -- Enable only critical errors (disable unnecessary warnings)
-			--             pyflakes = { enabled = true },         -- Enable pyflakes (for error checking)
-			--             pycodestyle = { enabled = false },     -- Disable pycodestyle (to avoid style warnings)
-			--             pylint = {
-			--                 enabled = true,
-			--             },
-			--             flake8 = { enabled = false },         -- Disable flake8 (style checker)
-			--             mccabe = { enabled = false },         -- Disable mccabe (complexity checker)
-			--             pydocstyle = { enabled = false },     -- Disable pydocstyle (docstring checker)
-			--
-			--             -- Enable auto-formatting plugins
-			--             black = { enabled = true },  -- Enable black (autoformatter)
-			--             yapf = { enabled = true },               -- Enable yapf (formatter)
-			--             autopep8 = { enabled = true },           -- Enable autopep8 (formatter)
-			--             isort = { enabled = true },              -- Enable isort (sorting imports)
-			--
-			--             -- Enable trailing whitespace removal
-			--             trailing_whitespace = { enabled = true },                            },
-			--
-			--     }
-			-- })
-
-			vim.lsp.config("basedpyright", {
+			vim.lsp.config("ty", {
 				settings = {
-					basedpyright = {
-						disableOrganizeImports = true, -- Ruff handles imports
-						disableLanguageServices = false,
+					ty = {
+						configuration = {
+							rules = {
 
-						-- analysis = {
-						--     -- Ignore all files for analysis to exclusively use Ruff for linting
-						--     ignore = { '*' },
-						-- },
-						analysis = {
-							autoSearchPaths = true,
-							-- useLibraryCodeForTypes = true,
-							diagnosticMode = "openFilesOnly", -- Prevent random checks
-							typeCheckingMode = "off", -- Options: "off", "basic", "strict"
-
-							diagnosticSeverityOverrides = {
-								reportMissingImports = "error",
-
-								reportArgumentType = "hint",
-								reportMissingTypeStubs = "none",
-								reportUnknownMemberType = "none",
-								reportOptionalSubscript = "none",
-								reportOptionalMemberAccess = "none",
-								reportUnusedImport = "none", -- Ruff handles this
-								reportUndefinedVariable = "none",
-								reportGeneralTypeIssues = "none",
-								reportInvalidTypeForm = "none", -- Suppress enum type annotation errors
-								reportAssignmentType = "none",
-								reportReturnType = "none",
-								reportOptionalIterable = "none",
-								reportOptionalOperand = "none",
+								["unresolved-reference"] = "warn",
 							},
 						},
 					},
 				},
 			})
-			-- lspconfig.pyright.setup({
+
+			-- vim.lsp.config("basedpyright", {
 			-- 	settings = {
-			-- 		pyright = {
+			-- 		basedpyright = {
 			-- 			disableOrganizeImports = true, -- Ruff handles imports
 			-- 			disableLanguageServices = false,
-			-- 		},
-			-- 		python = {
 			--
 			-- 			-- analysis = {
 			-- 			--     -- Ignore all files for analysis to exclusively use Ruff for linting
@@ -249,6 +161,7 @@ return {
 			-- 				diagnosticSeverityOverrides = {
 			-- 					reportMissingImports = "error",
 			--
+			-- 					reportArgumentType = "hint",
 			-- 					reportMissingTypeStubs = "none",
 			-- 					reportUnknownMemberType = "none",
 			-- 					reportOptionalSubscript = "none",
@@ -306,14 +219,6 @@ return {
 					{ name = "buffer" },
 				}),
 			})
-
-			-- TODO: remove
-			-- local luasnip = require("luasnip")
-			-- local s = luasnip.snippet
-			-- local t = luasnip.text_node
-			--
-			-- local foo = s("bar", t("baz"))
-			-- luasnip.add_snippets("all", { foo })
 
 			-- Command-line completion
 			cmp.setup.cmdline("/", {
